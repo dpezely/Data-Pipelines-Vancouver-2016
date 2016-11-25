@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg viewBox="0 0 1800 900" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs id="defs_block">
+    <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
+      <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
+    </filter>
+  </defs>
+  <title>blockdiag</title>
+  <desc># DataCollector.diag
+
+blockdiag {
+  default_fontsize=20;
+
+  // Set node metrix
+  node_width = 200;  // default value is 128
+  node_height = 100;  // default value is 40
+
+  // Set span metrix
+  span_width = 200;  // default value is 64
+  span_height =100;  // default value is 40
+
+  // set default shape
+  default_shape = roundedbox;  // default value is 'box'
+
+  // set default colors
+  default_group_color = salmon;
+
+  "Mobile\nDevices" [stacked, width=90];
+  "Mobile User" [shape=actor];
+  "Customer" [shape=actor];
+  "Browser\nConsole\napp" [width=100]
+  "Splunk Indexers" [stacked];
+
+  group {
+    orientation=portrait;
+    color=white;
+    "Mobile\nDevices" -&gt; "Mobile User" [color=white];
+  }
+  "Mobile\nDevices" -&gt; "Software\nLoad Balancer" [label="500 M devices\ndaily nonstop"];
+  "Data Collector\nwith:\nLive Queue\nStale Queue";
+  "Software\nLoad Balancer" -&gt; "Data Collector\nwith:\nLive Queue\nStale Queue" [label="150k rps\nper node"];
+
+  "Data Collector\nwith:\nLive Queue\nStale Queue" &lt;- "Splunk Indexers";
+
+  group {
+    orientation=portrait;
+    color=white;
+    group {
+      color=lightblue;
+      "Splunk Indexers" -&gt; "Splunk MINT\napp";
+      }
+    "Splunk MINT\napp" -&gt; "Browser\nConsole\napp";
+    "Browser\nConsole\napp" -&gt; "Customer" [color=white];
+  }
+
+  "Software\nLoad Balancer" -&gt; "Data Collector\ntest in\nproduction env" [label="mirrored\ntraffic\n"];
+
+  group {
+    "Data Collector\nwith:\nLive Queue\nStale Queue";
+  }
+}
+</desc>
+  <rect fill="rgb(255,255,255)" height="350" style="filter:url(#filter_blur)" width="250" x="175" y="75" />
+  <rect fill="rgb(255,255,255)" height="750" style="filter:url(#filter_blur)" width="250" x="1375" y="75" />
+  <rect fill="rgb(173,216,230)" height="350" style="filter:url(#filter_blur)" width="250" x="1375" y="75" />
+  <rect fill="rgb(250,128,114)" height="150" style="filter:url(#filter_blur)" width="250" x="975" y="75" />
+  <path d="M 274 114 L 348 114 A8,8 0 0 1 356 122 L 356 206 A8,8 0 0 1 348 214 L 274 214 A8,8 0 0 1 266 206 L 266 122 A8,8 0 0 1 274 114" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 270 110 L 344 110 A8,8 0 0 1 352 118 L 352 202 A8,8 0 0 1 344 210 L 270 210 A8,8 0 0 1 262 202 L 262 118 A8,8 0 0 1 270 110" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 266 106 L 340 106 A8,8 0 0 1 348 114 L 348 198 A8,8 0 0 1 340 206 L 266 206 A8,8 0 0 1 258 198 L 258 114 A8,8 0 0 1 266 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <polygon fill="rgb(0,0,0)" points="309,338 309,347 339,347 339,356 309,356 309,365 334,392 321,392 303,374 285,392 272,392 297,365 297,356 267,356 267,347 297,347 297,338" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <ellipse cx="303" cy="329" fill="rgb(0,0,0)" rx="13" ry="13" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1419 114 L 1603 114 A8,8 0 0 1 1611 122 L 1611 206 A8,8 0 0 1 1603 214 L 1419 214 A8,8 0 0 1 1411 206 L 1411 122 A8,8 0 0 1 1419 114" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1415 110 L 1599 110 A8,8 0 0 1 1607 118 L 1607 202 A8,8 0 0 1 1599 210 L 1415 210 A8,8 0 0 1 1407 202 L 1407 118 A8,8 0 0 1 1415 110" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1411 106 L 1595 106 A8,8 0 0 1 1603 114 L 1603 198 A8,8 0 0 1 1595 206 L 1411 206 A8,8 0 0 1 1403 198 L 1403 114 A8,8 0 0 1 1411 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1411 306 L 1595 306 A8,8 0 0 1 1603 314 L 1603 398 A8,8 0 0 1 1595 406 L 1411 406 A8,8 0 0 1 1403 398 L 1403 314 A8,8 0 0 1 1411 306" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1461 506 L 1545 506 A8,8 0 0 1 1553 514 L 1553 598 A8,8 0 0 1 1545 606 L 1461 606 A8,8 0 0 1 1453 598 L 1453 514 A8,8 0 0 1 1461 506" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <polygon fill="rgb(0,0,0)" points="1509,738 1509,747 1539,747 1539,756 1509,756 1509,765 1534,792 1521,792 1503,774 1485,792 1472,792 1497,765 1497,756 1467,756 1467,747 1497,747 1497,738" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <ellipse cx="1503" cy="729" fill="rgb(0,0,0)" rx="13" ry="13" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 611 106 L 795 106 A8,8 0 0 1 803 114 L 803 198 A8,8 0 0 1 795 206 L 611 206 A8,8 0 0 1 603 198 L 603 114 A8,8 0 0 1 611 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1011 106 L 1195 106 A8,8 0 0 1 1203 114 L 1203 198 A8,8 0 0 1 1195 206 L 1011 206 A8,8 0 0 1 1003 198 L 1003 114 A8,8 0 0 1 1011 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1011 306 L 1195 306 A8,8 0 0 1 1203 314 L 1203 398 A8,8 0 0 1 1195 406 L 1011 406 A8,8 0 0 1 1003 398 L 1003 314 A8,8 0 0 1 1011 306" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 271 108 L 345 108 A8,8 0 0 1 353 116 L 353 200 A8,8 0 0 1 345 208 L 271 208 A8,8 0 0 1 263 200 L 263 116 A8,8 0 0 1 271 108" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 267 104 L 341 104 A8,8 0 0 1 349 112 L 349 196 A8,8 0 0 1 341 204 L 267 204 A8,8 0 0 1 259 196 L 259 112 A8,8 0 0 1 267 104" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 263 100 L 337 100 A8,8 0 0 1 345 108 L 345 192 A8,8 0 0 1 337 200 L 263 200 A8,8 0 0 1 255 192 L 255 108 A8,8 0 0 1 263 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="65" x="300" y="149">Mobile</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="300" y="171">Devices</text>
+  <polygon fill="rgb(255,255,255)" points="306,332 306,341 336,341 336,350 306,350 306,359 331,386 318,386 300,368 282,386 269,386 294,359 294,350 264,350 264,341 294,341 294,332" stroke="rgb(0,0,0)" />
+  <ellipse cx="300" cy="323" fill="rgb(255,255,255)" rx="13" ry="13" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="120" x="300" y="408">Mobile User</text>
+  <path d="M 1416 108 L 1600 108 A8,8 0 0 1 1608 116 L 1608 200 A8,8 0 0 1 1600 208 L 1416 208 A8,8 0 0 1 1408 200 L 1408 116 A8,8 0 0 1 1416 108" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 1412 104 L 1596 104 A8,8 0 0 1 1604 112 L 1604 196 A8,8 0 0 1 1596 204 L 1412 204 A8,8 0 0 1 1404 196 L 1404 112 A8,8 0 0 1 1412 104" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 1408 100 L 1592 100 A8,8 0 0 1 1600 108 L 1600 192 A8,8 0 0 1 1592 200 L 1408 200 A8,8 0 0 1 1400 192 L 1400 108 A8,8 0 0 1 1408 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="163" x="1500" y="160">Splunk Indexers</text>
+  <path d="M 1408 300 L 1592 300 A8,8 0 0 1 1600 308 L 1600 392 A8,8 0 0 1 1592 400 L 1408 400 A8,8 0 0 1 1400 392 L 1400 308 A8,8 0 0 1 1408 300" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="120" x="1500" y="349">Splunk MINT</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="32" x="1500" y="371">app</text>
+  <path d="M 1458 500 L 1542 500 A8,8 0 0 1 1550 508 L 1550 592 A8,8 0 0 1 1542 600 L 1458 600 A8,8 0 0 1 1450 592 L 1450 508 A8,8 0 0 1 1458 500" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="1500" y="538">Browser</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="1500" y="560">Console</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="32" x="1500" y="582">app</text>
+  <polygon fill="rgb(255,255,255)" points="1506,732 1506,741 1536,741 1536,750 1506,750 1506,759 1531,786 1518,786 1500,768 1482,786 1469,786 1494,759 1494,750 1464,750 1464,741 1494,741 1494,732" stroke="rgb(0,0,0)" />
+  <ellipse cx="1500" cy="723" fill="rgb(255,255,255)" rx="13" ry="13" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="1500" y="808">Customer</text>
+  <path d="M 608 100 L 792 100 A8,8 0 0 1 800 108 L 800 192 A8,8 0 0 1 792 200 L 608 200 A8,8 0 0 1 600 192 L 600 108 A8,8 0 0 1 608 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="700" y="149">Software</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="141" x="700" y="171">Load Balancer</text>
+  <path d="M 1008 100 L 1192 100 A8,8 0 0 1 1200 108 L 1200 192 A8,8 0 0 1 1192 200 L 1008 200 A8,8 0 0 1 1000 192 L 1000 108 A8,8 0 0 1 1008 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="152" x="1100" y="127">Data Collector</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="1100" y="149">with:</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="109" x="1100" y="171">Live Queue</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="120" x="1100" y="193">Stale Queue</text>
+  <path d="M 1008 300 L 1192 300 A8,8 0 0 1 1200 308 L 1200 392 A8,8 0 0 1 1192 400 L 1008 400 A8,8 0 0 1 1000 392 L 1000 308 A8,8 0 0 1 1008 300" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="152" x="1100" y="338">Data Collector</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="1100" y="360">test in</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="152" x="1100" y="382">production env</text>
+  <path d="M 800 150 L 992 150" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="999,150 992,146 992,154 999,150" stroke="rgb(0,0,0)" />
+  <path d="M 800 150 L 900 150" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 900 150 L 900 350" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 900 350 L 992 350" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="999,350 992,346 992,354 999,350" stroke="rgb(0,0,0)" />
+  <path d="M 300 208 L 300 302" fill="none" stroke="rgb(255,255,255)" />
+  <polygon fill="rgb(255,255,255)" points="300,309 296,302 304,302 300,309" stroke="rgb(255,255,255)" />
+  <path d="M 353 150 L 592 150" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="599,150 592,146 592,154 599,150" stroke="rgb(0,0,0)" />
+  <path d="M 1500 600 L 1500 702" fill="none" stroke="rgb(255,255,255)" />
+  <polygon fill="rgb(255,255,255)" points="1500,709 1496,702 1504,702 1500,709" stroke="rgb(255,255,255)" />
+  <path d="M 1500 208 L 1500 292" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1500,299 1496,292 1504,292 1500,299" stroke="rgb(0,0,0)" />
+  <path d="M 1500 400 L 1500 492" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1500,499 1496,492 1504,492 1500,499" stroke="rgb(0,0,0)" />
+  <path d="M 1500 208 L 1500 292" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1500,299 1496,292 1504,292 1500,299" stroke="rgb(0,0,0)" />
+  <path d="M 1500 400 L 1500 492" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1500,499 1496,492 1504,492 1500,499" stroke="rgb(0,0,0)" />
+  <path d="M 1208 150 L 1400 150" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1201,150 1208,146 1208,154 1201,150" stroke="rgb(0,0,0)" />
+  <rect fill="white" height="46" stroke="rgb(0,0,0)" width="103" x="849" y="90" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="900" y="112">150k rps</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="900" y="134">per node</text>
+  <rect fill="white" height="46" stroke="rgb(0,0,0)" width="103" x="849" y="290" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="900" y="312">mirrored</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="900" y="334">traffic</text>
+  <rect fill="white" height="46" stroke="rgb(0,0,0)" width="157" x="422" y="90" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="141" x="500" y="112">500 M devices</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="141" x="500" y="134">daily nonstop</text>
+</svg>

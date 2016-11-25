@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg viewBox="0 0 1800 700" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs id="defs_block">
+    <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
+      <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
+    </filter>
+  </defs>
+  <title>blockdiag</title>
+  <desc># LetheDB.diag
+
+blockdiag {
+  default_fontsize=20;
+
+  // Set node metrix
+  node_width = 200;  // default value is 128
+  node_height = 100;  // default value is 40
+
+  // Set span metrix
+  span_width = 200;  // default value is 64
+  span_height =100;  // default value is 40
+
+  // set default shape
+  default_shape = roundedbox;  // default value is 'box'
+
+  // set default colors
+  default_group_color = salmon;
+
+  "Mobile\nDevices" [stacked, width=90];
+  "Mobile User" [shape=actor];
+  "Customer" [shape=actor];
+  "Browser\nConsole\napp" [width=100]
+
+  group {
+    orientation=portrait;
+    color=white;
+    "Mobile\nDevices" -&gt; "Mobile User" [color=white];
+  }
+  "Mobile\nDevices" -&gt; "Software\nLoad Balancer" [label="500 M devices\ndaily nonstop"];
+  "LDB:\nLetheDB &amp;\nStream Processor" [stacked];
+  "Software\nLoad Balancer" -&gt; "LDB:\nLetheDB &amp;\nStream Processor" [label="2500+ rps\nper node"];
+
+  "LDB:\nLetheDB &amp;\nStream Processor" &lt;- "Google\nApp Engine";
+
+  group {
+    orientation=portrait;
+    color=white;
+    "Google\nApp Engine" -&gt; "Browser\nConsole\napp";
+    "Browser\nConsole\napp" -&gt; "Customer" [color=white];
+  }
+
+  "Software\nLoad Balancer" -&gt; "LDBx:\ntest in\nproduction env" [label="mirrored\ntraffic\n"];
+
+  group {
+    "LDB:\nLetheDB &amp;\nStream Processor";
+  }
+}
+</desc>
+  <rect fill="rgb(255,255,255)" height="350" style="filter:url(#filter_blur)" width="250" x="175" y="75" />
+  <rect fill="rgb(255,255,255)" height="550" style="filter:url(#filter_blur)" width="250" x="1375" y="75" />
+  <rect fill="rgb(250,128,114)" height="150" style="filter:url(#filter_blur)" width="250" x="975" y="75" />
+  <path d="M 274 114 L 348 114 A8,8 0 0 1 356 122 L 356 206 A8,8 0 0 1 348 214 L 274 214 A8,8 0 0 1 266 206 L 266 122 A8,8 0 0 1 274 114" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 270 110 L 344 110 A8,8 0 0 1 352 118 L 352 202 A8,8 0 0 1 344 210 L 270 210 A8,8 0 0 1 262 202 L 262 118 A8,8 0 0 1 270 110" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 266 106 L 340 106 A8,8 0 0 1 348 114 L 348 198 A8,8 0 0 1 340 206 L 266 206 A8,8 0 0 1 258 198 L 258 114 A8,8 0 0 1 266 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <polygon fill="rgb(0,0,0)" points="309,338 309,347 339,347 339,356 309,356 309,365 334,392 321,392 303,374 285,392 272,392 297,365 297,356 267,356 267,347 297,347 297,338" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <ellipse cx="303" cy="329" fill="rgb(0,0,0)" rx="13" ry="13" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1411 106 L 1595 106 A8,8 0 0 1 1603 114 L 1603 198 A8,8 0 0 1 1595 206 L 1411 206 A8,8 0 0 1 1403 198 L 1403 114 A8,8 0 0 1 1411 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1461 306 L 1545 306 A8,8 0 0 1 1553 314 L 1553 398 A8,8 0 0 1 1545 406 L 1461 406 A8,8 0 0 1 1453 398 L 1453 314 A8,8 0 0 1 1461 306" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <polygon fill="rgb(0,0,0)" points="1509,538 1509,547 1539,547 1539,556 1509,556 1509,565 1534,592 1521,592 1503,574 1485,592 1472,592 1497,565 1497,556 1467,556 1467,547 1497,547 1497,538" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <ellipse cx="1503" cy="529" fill="rgb(0,0,0)" rx="13" ry="13" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 611 106 L 795 106 A8,8 0 0 1 803 114 L 803 198 A8,8 0 0 1 795 206 L 611 206 A8,8 0 0 1 603 198 L 603 114 A8,8 0 0 1 611 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1019 114 L 1203 114 A8,8 0 0 1 1211 122 L 1211 206 A8,8 0 0 1 1203 214 L 1019 214 A8,8 0 0 1 1011 206 L 1011 122 A8,8 0 0 1 1019 114" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1015 110 L 1199 110 A8,8 0 0 1 1207 118 L 1207 202 A8,8 0 0 1 1199 210 L 1015 210 A8,8 0 0 1 1007 202 L 1007 118 A8,8 0 0 1 1015 110" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1011 106 L 1195 106 A8,8 0 0 1 1203 114 L 1203 198 A8,8 0 0 1 1195 206 L 1011 206 A8,8 0 0 1 1003 198 L 1003 114 A8,8 0 0 1 1011 106" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 1011 306 L 1195 306 A8,8 0 0 1 1203 314 L 1203 398 A8,8 0 0 1 1195 406 L 1011 406 A8,8 0 0 1 1003 398 L 1003 314 A8,8 0 0 1 1011 306" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 271 108 L 345 108 A8,8 0 0 1 353 116 L 353 200 A8,8 0 0 1 345 208 L 271 208 A8,8 0 0 1 263 200 L 263 116 A8,8 0 0 1 271 108" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 267 104 L 341 104 A8,8 0 0 1 349 112 L 349 196 A8,8 0 0 1 341 204 L 267 204 A8,8 0 0 1 259 196 L 259 112 A8,8 0 0 1 267 104" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 263 100 L 337 100 A8,8 0 0 1 345 108 L 345 192 A8,8 0 0 1 337 200 L 263 200 A8,8 0 0 1 255 192 L 255 108 A8,8 0 0 1 263 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="65" x="300" y="149">Mobile</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="300" y="171">Devices</text>
+  <polygon fill="rgb(255,255,255)" points="306,332 306,341 336,341 336,350 306,350 306,359 331,386 318,386 300,368 282,386 269,386 294,359 294,350 264,350 264,341 294,341 294,332" stroke="rgb(0,0,0)" />
+  <ellipse cx="300" cy="323" fill="rgb(255,255,255)" rx="13" ry="13" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="120" x="300" y="408">Mobile User</text>
+  <path d="M 1408 100 L 1592 100 A8,8 0 0 1 1600 108 L 1600 192 A8,8 0 0 1 1592 200 L 1408 200 A8,8 0 0 1 1400 192 L 1400 108 A8,8 0 0 1 1408 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="65" x="1500" y="149">Google</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="109" x="1500" y="171">App Engine</text>
+  <path d="M 1458 300 L 1542 300 A8,8 0 0 1 1550 308 L 1550 392 A8,8 0 0 1 1542 400 L 1458 400 A8,8 0 0 1 1450 392 L 1450 308 A8,8 0 0 1 1458 300" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="1500" y="338">Browser</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="1500" y="360">Console</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="32" x="1500" y="382">app</text>
+  <polygon fill="rgb(255,255,255)" points="1506,532 1506,541 1536,541 1536,550 1506,550 1506,559 1531,586 1518,586 1500,568 1482,586 1469,586 1494,559 1494,550 1464,550 1464,541 1494,541 1494,532" stroke="rgb(0,0,0)" />
+  <ellipse cx="1500" cy="523" fill="rgb(255,255,255)" rx="13" ry="13" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="1500" y="608">Customer</text>
+  <path d="M 608 100 L 792 100 A8,8 0 0 1 800 108 L 800 192 A8,8 0 0 1 792 200 L 608 200 A8,8 0 0 1 600 192 L 600 108 A8,8 0 0 1 608 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="700" y="149">Software</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="141" x="700" y="171">Load Balancer</text>
+  <path d="M 1016 108 L 1200 108 A8,8 0 0 1 1208 116 L 1208 200 A8,8 0 0 1 1200 208 L 1016 208 A8,8 0 0 1 1008 200 L 1008 116 A8,8 0 0 1 1016 108" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 1012 104 L 1196 104 A8,8 0 0 1 1204 112 L 1204 196 A8,8 0 0 1 1196 204 L 1012 204 A8,8 0 0 1 1004 196 L 1004 112 A8,8 0 0 1 1012 104" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 1008 100 L 1192 100 A8,8 0 0 1 1200 108 L 1200 192 A8,8 0 0 1 1192 200 L 1008 200 A8,8 0 0 1 1000 192 L 1000 108 A8,8 0 0 1 1008 100" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="43" x="1100" y="138">LDB:</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="98" x="1100" y="160">LetheDB &amp;</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="174" x="1100" y="182">Stream Processor</text>
+  <path d="M 1008 300 L 1192 300 A8,8 0 0 1 1200 308 L 1200 392 A8,8 0 0 1 1192 400 L 1008 400 A8,8 0 0 1 1000 392 L 1000 308 A8,8 0 0 1 1008 300" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="1100" y="338">LDBx:</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="1100" y="360">test in</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="152" x="1100" y="382">production env</text>
+  <path d="M 800 150 L 992 150" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="999,150 992,146 992,154 999,150" stroke="rgb(0,0,0)" />
+  <path d="M 800 150 L 900 150" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 900 150 L 900 350" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 900 350 L 992 350" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="999,350 992,346 992,354 999,350" stroke="rgb(0,0,0)" />
+  <path d="M 300 208 L 300 302" fill="none" stroke="rgb(255,255,255)" />
+  <polygon fill="rgb(255,255,255)" points="300,309 296,302 304,302 300,309" stroke="rgb(255,255,255)" />
+  <path d="M 353 150 L 592 150" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="599,150 592,146 592,154 599,150" stroke="rgb(0,0,0)" />
+  <path d="M 1500 200 L 1500 292" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1500,299 1496,292 1504,292 1500,299" stroke="rgb(0,0,0)" />
+  <path d="M 1500 400 L 1500 502" fill="none" stroke="rgb(255,255,255)" />
+  <polygon fill="rgb(255,255,255)" points="1500,509 1496,502 1504,502 1500,509" stroke="rgb(255,255,255)" />
+  <path d="M 1216 150 L 1400 150" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="1209,150 1216,146 1216,154 1209,150" stroke="rgb(0,0,0)" />
+  <rect fill="white" height="46" stroke="rgb(0,0,0)" width="114" x="843" y="90" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="98" x="900" y="112">2500+ rps</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="900" y="134">per node</text>
+  <rect fill="white" height="46" stroke="rgb(0,0,0)" width="103" x="849" y="290" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="900" y="312">mirrored</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="900" y="334">traffic</text>
+  <rect fill="white" height="46" stroke="rgb(0,0,0)" width="157" x="422" y="90" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="141" x="500" y="112">500 M devices</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="20" font-style="normal" font-weight="normal" text-anchor="middle" textLength="141" x="500" y="134">daily nonstop</text>
+</svg>

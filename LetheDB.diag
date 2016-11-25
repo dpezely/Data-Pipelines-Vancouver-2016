@@ -1,0 +1,48 @@
+# LetheDB.diag
+
+blockdiag {
+  default_fontsize=20;
+
+  // Set node metrix
+  node_width = 200;  // default value is 128
+  node_height = 100;  // default value is 40
+
+  // Set span metrix
+  span_width = 200;  // default value is 64
+  span_height =100;  // default value is 40
+
+  // set default shape
+  default_shape = roundedbox;  // default value is 'box'
+
+  // set default colors
+  default_group_color = salmon;
+
+  "Mobile\nDevices" [stacked, width=90];
+  "Mobile User" [shape=actor];
+  "Customer" [shape=actor];
+  "Browser\nConsole\napp" [width=100]
+
+  group {
+    orientation=portrait;
+    color=white;
+    "Mobile\nDevices" -> "Mobile User" [color=white];
+  }
+  "Mobile\nDevices" -> "Software\nLoad Balancer" [label="500 M devices\ndaily nonstop"];
+  "LDB:\nLetheDB &\nStream Processor" [stacked];
+  "Software\nLoad Balancer" -> "LDB:\nLetheDB &\nStream Processor" [label="2500+ rps\nper node"];
+
+  "LDB:\nLetheDB &\nStream Processor" <- "Google\nApp Engine";
+
+  group {
+    orientation=portrait;
+    color=white;
+    "Google\nApp Engine" -> "Browser\nConsole\napp";
+    "Browser\nConsole\napp" -> "Customer" [color=white];
+  }
+
+  "Software\nLoad Balancer" -> "LDBx:\ntest in\nproduction env" [label="mirrored\ntraffic\n"];
+
+  group {
+    "LDB:\nLetheDB &\nStream Processor";
+  }
+}

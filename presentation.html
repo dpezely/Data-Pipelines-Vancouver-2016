@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>presentation.html</title>
+
+</head>
+
+<body>
+
+<h1>Stream-Processing In A</h1>
+
+<h1>High Traffic Environment</h1>
+
+<p><strong>From Startup To Post-Acquisition</strong></p>
+
+<p><a href="https://linkedin.com/in/dpezely">Daniel Pezely</a><br/>
+Formerly with Splunk/BugSense<br/>
+(now with <a href="http://snagz.net/">Snagz.net</a>)</p>
+
+<p><strong>Data Pipelines &amp; Distributed Systems</strong> Meetup<br/>
+at STAT Search Analytics, Vancouver, BC</p>
+
+<p>24 November 2016</p>
+
+<hr />
+
+<h2>Context</h2>
+
+<p><image src="SplunkMINTOverview_MINT_v1.0.png" width="100%" height="100%"></p>
+
+<p>We&rsquo;ll look inside that &ldquo;cloud&rdquo; icon from <strong>before and after</strong>
+<a href="https://web.archive.org/web/20130220160535/http://www.bugsense.com/">BugSense</a><br/>
+was acquired and became <a href="http://Splunk.com/mint">Splunk MINT</a> &hellip;</p>
+
+<p>[image from <a href="http://docs.splunk.com/Documentation/Mint/1.0/ProductOverview/AboutSplunkMINT">About Splunk MINT</a>]</p>
+<hr />
+
+<h2>Background</h2>
+
+<p>BugSense founded in 2011 in Athens, Greece</p>
+
+<p>Total funding was USD $100k plus a hosting grant</p>
+
+<p>Was #2 (behind Google) for crash reporting &amp; analytics of mobile apps</p>
+
+<p>Handled many billions of requests daily, non-stop from around the world</p>
+
+<p>Acquired by Splunk in 2013 with headcount of 12<br/>
+via connection made six months earlier at <em>Erlang Factory SF 2013</em></p>
+
+<p>The BugSense offering became a Splunk App&ndash; now called MINT:<br/>
+<em>Mobile Intelligence</em> <a href="http://splunk.com/mint">Splunk.com/mint</a></p>
+
+<p>( Splunk also acquired Metaphor Software in 2015,<br/>
+maintaining an office presence in Vancouver )</p>
+
+<hr />
+
+<h2>Bio</h2>
+
+<p>Daniel joined BugSense after its acquisition.<br/>
+Maintained Lethe database &amp; stream-processing system<br/>
+plus co-developed Data Collector, both of which<br/>
+are presented here.</p>
+
+<p>Involved in many startups and large companies:<br/>
+Main Street, Wall Street, Silicon Valley, Sydney,<br/>
+and places in between&ndash; now in Vancouver.</p>
+
+<p>Currently:</p>
+
+<p>Founder and principal developer of Snagz.net<br/>
+document and data-mining system for datasets that<br/>
+may benefit from more than Machine Learning alone.</p>
+
+<hr />
+
+<h2>Part 1:</h2>
+
+<h2>Original BugSense Architecture</h2>
+
+<p><image src="BugSense-logo.svg"></p>
+
+<p><strong>Launch through early days of acquisition</strong></p>
+
+<p><strong>( Before BugSense gets re-written as a Splunk App )</strong></p>
+
+<hr />
+
+<h2>Criteria for LetheDB</h2>
+
+<p>Handle crash reporting &amp; analytics of mobile devices:</p>
+
+<ul>
+<li>Data was mostly linear counters and probabilistic counters (HLL)</li>
+<li>Maintain low burn-rate
+
+<ul>
+<li>Rules-out Hadoop and others needing large number of servers</li>
+<li>10,000 free-tier customers per node (on commodity server)</li>
+</ul>
+</li>
+<li>Handle very high traffic, non-stop from around the world
+
+<ul>
+<li>Within 2 years, over 500 Million devices reporting daily</li>
+<li>Traffic appeared to AWS as DDoS attack</li>
+</ul>
+</li>
+<li>Each node must be relatively autonomous
+
+<ul>
+<li>No network calls from worker nodes</li>
+</ul>
+</li>
+<li>Reply within single-digit milliseconds
+
+<ul>
+<li>Because mobile networks introduce enough latency</li>
+</ul>
+</li>
+<li>Load customer data on-demand
+
+<ul>
+<li>Node boots without any data</li>
+<li>Allows for an oversubscribed server</li>
+</ul>
+</li>
+<li>&ldquo;Let it crash&rdquo;
+
+<ul>
+<li>Erlang motto, meaning: <em>revert to well-defined stable state</em></li>
+<li>Very effective for garbage-collection</li>
+</ul>
+</li>
+<li>Malleable query language
+
+<ul>
+<li>Because an early stage startup is still learning about its niche</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<h2>LetheDB</h2>
+
+<p>We&rsquo;ll focus on the box highlighted:</p>
+
+<p><image src="LetheDB.svg"></p>
+
+<hr />
+
+<h2>Design &amp; Implementation</h2>
+
+<ul>
+<li>Stream processor and database&ndash; combined
+
+<ul>
+<li>Avoid queuing (you&rsquo;ll never catch-up!)</li>
+</ul>
+</li>
+<li>Run everything in same memory space to reduce latency
+
+<ul>
+<li>One Erlang &ldquo;process&rdquo; per customer</li>
+<li>Query language implemented in C</li>
+<li>Hash table implemented in C based upon <code>uthash</code></li>
+<li>However, C serialization/deserialization can become a bottleneck</li>
+</ul>
+</li>
+<li>Keep distributed systems topology simple in the beginning
+
+<ul>
+<li>With an all-in-one design, service discovery is unnecessary</li>
+</ul>
+</li>
+<li>Manage data-flow with straight-forward layers:
+
+<ul>
+<li>Rules for filters</li>
+<li>Finite State Machines</li>
+<li>Statistical Methods; e.g., enforcing quotas</li>
+</ul>
+</li>
+<li>Query language was embedded Lisp (<code>Scheme R4</code>) implemented in C
+
+<ul>
+<li>But migrated to native Erlang functions for 2015 release</li>
+</ul>
+</li>
+<li>Store aggregate data only
+
+<ul>
+<li>Originally required sub-sampling for large customers</li>
+<li>Sub-sampling became optional after 2015 release</li>
+</ul>
+</li>
+<li>No external database
+
+<ul>
+<li>No socket/pipe overhead</li>
+<li>No API translation overhead</li>
+</ul>
+</li>
+<li>Custom replication engine
+
+<ul>
+<li>Intended for hot/cold fail-over only</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<h2>Key Feature: Multi-Tenancy</h2>
+
+<p>One Erlang &ldquo;process&rdquo; per customer:</p>
+
+<ul>
+<li>Spawn() on-demand, exits when idle</li>
+</ul>
+
+
+<p>One set of tables per customer:</p>
+
+<ul>
+<li>No single customer can block any other &ndash; can only block yourself</li>
+<li>Encourages heavy users to upgrade to Dedicated server</li>
+</ul>
+
+
+<p>Per-customer tables persisted for N+1 days(*) of retention:</p>
+
+<ul>
+<li>Key/Value pairs &ndash; mostly as linear counters</li>
+<li>Sets (implemented as arrays)</li>
+<li>Probabilistic counters (HLL)</li>
+</ul>
+
+
+<p>Originally tracked full history:</p>
+
+<ul>
+<li>Useful while deciding upon actual retention length</li>
+<li>Settled on 7 days</li>
+<li>Pruned old files via <code>cron</code></li>
+</ul>
+
+
+<p>(*) N+1 days of retention because of modulo naming scheme for re-using files
+on disk and &ldquo;atoms&rdquo; within Erlang VM.  One day of padding keeps semantics of
+midnight/date-rollover simple, considering late arrival <code>write</code> versus <code>read</code>
+for report generation.</p>
+
+<hr />
+
+<h2>Part 2:</h2>
+
+<h2>New Architecture After Acquisition</h2>
+
+<p><image src="Splunk-logo-white.png"></p>
+
+<p><strong>BugSense re-written as a Splunk app</strong></p>
+
+<hr />
+
+<h2>Criteria for Data Collector</h2>
+
+<ul>
+<li><p>Use core Splunk for storage and processing</p></li>
+<li><p>Front-end ingests <code>150k</code> requests per second <em>per node</em> sustained</p>
+
+<ul>
+<li>Software load balancer written in Erlang</li>
+<li>App-layer router: crash dumps, key/value pairs, metrics</li>
+<li>Rules for filtering</li>
+<li>Rules for transforming some data</li>
+<li>Rules for blocking traffic; e.g., if no longer a customer</li>
+<li>Accommodate mirroring production traffic</li>
+</ul>
+</li>
+<li><p>Feeds data into Splunk Indexer</p>
+
+<ul>
+<li>Typically deployed as cluster with 3 or more Indexers</li>
+<li>Indexers can take much time to recover after a crash</li>
+<li>Accommodate temporary network partitions</li>
+</ul>
+</li>
+<li><p>Therefore, must handle &ldquo;live&rdquo; versus &ldquo;stale&rdquo; data</p>
+
+<ul>
+<li>Always deliver &ldquo;live&rdquo; data, if any</li>
+<li>Throttle delivery of &ldquo;stale&rdquo; data, at nominal 20% max</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<h2>Data Collector</h2>
+
+<ul>
+<li>LetheDB replaced by <strong>Data Collector</strong></li>
+<li>Google App Engine replaced by <strong>Splunk MINT</strong> App</li>
+</ul>
+
+
+<p><image src="DataCollector.svg"></p>
+
+<hr />
+
+<h2>Design &amp; Implementation</h2>
+
+<p>First version (MVP) was single-tenant, second added multi-tenancy:</p>
+
+<ul>
+<li>As before with LDB, spawn customer&rsquo;s Erlang &ldquo;processes&rdquo; on-demand</li>
+<li>Each customer represented by bundle of processes (LDB used just one)</li>
+</ul>
+
+
+<p>Processes within bundle:(*)</p>
+
+<ul>
+<li>Ingress</li>
+<li>Egress</li>
+<li>Stale Queue</li>
+<li>Live Queue</li>
+<li>Transaction handler</li>
+<li>Transaction acknowledger</li>
+<li>Manage replay of &ldquo;stale&rdquo; data</li>
+</ul>
+
+
+<p>More Erlang, better Erlang:</p>
+
+<ul>
+<li>Developers had learned much about the language, frameworks, libraries</li>
+<li>Made better use of proper releases</li>
+<li>Proper releases facilitated use of introspection tools &amp; monitoring</li>
+<li>Made better use of non-trivial Supervisor trees</li>
+</ul>
+
+
+<p>(*) In Erlang, each &ldquo;process&rdquo; gets one mailbox.  Adding a companion process
+can help with timely responses, such as when the other blocks on I/O.</p>
+
+<hr />
+
+<h2>Key Feature: Pipeline With Multiple Priorities</h2>
+
+<p>Many systems only offer uni-directional queue<br/>
+because these are simpler to implement<br/>
+due to avoiding an entire class of dead-lock scenarios.</p>
+
+<p>But that&rsquo;s for <em>general purpose</em> systems!</p>
+
+<p>You know more about your subject domain<br/>
+than the library or framework author:</p>
+
+<ul>
+<li>Why be constrained by someone else&rsquo;s limitations?</li>
+<li>Have you spent more time tuning theirs<br/>
+when you could have more quickly built your own?</li>
+</ul>
+
+
+<p>Consider a custom Bi-directional queue/mailbox approach:</p>
+
+<ul>
+<li>Increase throughput by eliminating issues of blocked processes</li>
+<li>Thus, decrease latency of end-to-end system overall</li>
+<li>Even when faked with a pair of queues</li>
+<li>Led to creation of <code>gen_rpc</code> library:
+<a href="https://github.com/priestjim/gen_rpc">https://github.com/priestjim/gen_rpc</a></li>
+</ul>
+
+
+<hr />
+
+<h2>Part 3:</h2>
+
+<h2>Lessons Learned</h2>
+
+<hr />
+
+<h2>Founder&rsquo;s Perspective</h2>
+
+<p>Build a <em>deployable</em> Minimum Viable Product (MVP)<br/>
+Or as some call it, &ldquo;minimum <em>valuable</em> product&rdquo;</p>
+
+<p>Plan to be <code>#FundedByRevenue</code>, then more funding simply helps you<br/>
+grow faster and into more markets</p>
+
+<p>(From a tech co-founder&rsquo;s perspective, this is similar to<br/>
+designing without a commercial Load Balancer &mdash; knowing that<br/>
+you can always add one for more headroom later.)</p>
+
+<p><em>also</em></p>
+
+<p>Hire employees who are entrepreneurial-minded</p>
+
+<p>Being entrepreneurial doesn&rsquo;t necessarily mean that this person will be
+CEO.  It simply implies a mindset of:</p>
+
+<ul>
+<li>Resourcefulness counts far more than book knowledge,<br/>
+yet has strong working knowledge to get traction quickly</li>
+<li>Work smarter, not harder</li>
+<li>Can elegantly balance: <em>fast, cheap, good &ndash; pick two</em></li>
+</ul>
+
+
+<hr />
+
+<h2>Product Manager&rsquo;s Perspective</h2>
+
+<p>It&rsquo;s all about <em>managing complexity</em> without being complicated:</p>
+
+<ul>
+<li>Keep it simple</li>
+<li>But strive for design elegance</li>
+</ul>
+
+
+<p>Build versus buy versus use open source:</p>
+
+<ul>
+<li><em>Build</em> was appropriate for getting traction and considering burn-rate</li>
+<li>Getting <em>everything you need, nothing you don&rsquo;t</em> worked <strong>twice</strong></li>
+</ul>
+
+
+<p>Consider that as an early-stage startup, you are continually<br/>
+discovering the problem space as well as the solution space:</p>
+
+<ul>
+<li>Malleable query language (e.g., embedded Lisp) was a huge win here</li>
+</ul>
+
+
+<p>Other non-tech criteria to consider:</p>
+
+<ul>
+<li>There&rsquo;s a time to be <em>Lean</em> and a time to <em>throw money</em> at the problem,<br/>
+thus for an established company, adding servers might be right!</li>
+<li>How should on-boarding new staff impact <em>systems design</em>?<br/>
+(We learned and mastered Erlang on the job)</li>
+<li>New employees poached while en route for their <em>first day</em>&hellip;
+<code>#SiliconValleyProblems</code></li>
+</ul>
+
+
+<hr />
+
+<h2>Software Developer&rsquo;s Perspective</h2>
+
+<p>Simple layers yield rich behaviour:</p>
+
+<ul>
+<li>Rules for filtering</li>
+<li>Finite State Machines (FSM)</li>
+<li>Statistical methods; e.g., for managing quotas</li>
+</ul>
+
+
+<p>&ldquo;Let it crash&rdquo; used with great success:</p>
+
+<ul>
+<li>Again, this means: <em>revert to well-defined stable state</em></li>
+<li>Also effective for garbage-collection</li>
+</ul>
+
+
+<p>Ability to mirror production traffic was huge win:</p>
+
+<ul>
+<li>Very fast iteration cycles</li>
+<li>Customer data never leaves hardened &amp; monitored environment</li>
+</ul>
+
+
+<p>Programming Methodology:</p>
+
+<ul>
+<li>Highly recommend <em>functional programming</em> approach for correctness</li>
+<li>Test early &amp; often: required 80% code coverage, happily reached 92%</li>
+</ul>
+
+
+<p>Use of &ldquo;exotic&rdquo; programming languages can be <em>strategic advantage</em></p>
+
+<ul>
+<li>Competitive advantage for acquiring and retaining staff</li>
+<li>The right language accommodates doing more with less</li>
+</ul>
+
+
+<hr />
+
+<h2>Multi-Tenancy For Multiple Priorities</h2>
+
+<p><em>Combining the two systems architectures&hellip;</em></p>
+
+<p>Multi-tenant mechanics may also be used for <em>priority</em> messaging!</p>
+
+<ul>
+<li>Only messages of same rank/colour may go through same stream</li>
+<li>Backlog can only affect other messages of same priority, same customer</li>
+</ul>
+
+
+<p>Instead of managing as customers or as message versus Out-Of-Band (OOB),<br/>
+Augment with attributes such as from Service Level Agreement (SLA)</p>
+
+<ul>
+<li>customer-Foo-alert</li>
+<li>customer-Foo-absolute-positioning</li>
+<li>customer-Foo-position-deltas</li>
+<li>customer-Foo-transactions</li>
+<li>customer-Foo-housekeeping</li>
+</ul>
+
+
+<p>Offers more knobs &amp; levers for scaling or controlling capacity</p>
+
+<p>Not just for scaling up&hellip; but also scaling down later:</p>
+
+<ul>
+<li>Scale a service up while heading into its peak<br/>
+(single tenant, multiple priority)</li>
+<li>Consolidate servers, and scale down while riding long tail before sunset<br/>
+(multi-tenant, multiple priority)</li>
+</ul>
+
+
+<hr />
+
+<h2>For More Information</h2>
+
+<p>Full series of original presentations:</p>
+
+<ol>
+<li><a href="http://highscalability.com/blog/2012/11/26/bigdata-using-erlang-c-and-lisp-to-fight-the-tsunami-of-mobi.html">http://highscalability.com/blog/2012/11/26/bigdata-using-erlang-c-and-lisp-to-fight-the-tsunami-of-mobi.html</a></li>
+<li><a href="http://www.erlang-factory.com/conference/SFBay2013/speakers/DionisisKakoliris">http://www.erlang-factory.com/conference/SFBay2013/speakers/DionisisKakoliris</a></li>
+<li><a href="http://www.erlang-factory.com/sfbay2014/jon-vlachogiannis">http://www.erlang-factory.com/sfbay2014/jon-vlachogiannis</a></li>
+<li><a href="http://www.erlang-factory.com/sfbay2015/daniel-pezely">http://www.erlang-factory.com/sfbay2015/daniel-pezely</a></li>
+<li><a href="http://www.erlang-factory.com/sfbay2016/panagiotis-papadomitsos">http://www.erlang-factory.com/sfbay2016/panagiotis-papadomitsos</a></li>
+<li><a href="https://github.com/priestjim/gen_rpc">https://github.com/priestjim/gen_rpc</a></li>
+</ol>
+
+
+<p>Much credit for LDB&rsquo;s and Data Collector&rsquo;s success goes to:<br/>
+Panagiotis &ldquo;PJ&rdquo; Papadomitsos
+<a href="https://www.linkedin.com/in/priestjim">Linkedin.com/in/priestjim</a>
+&mdash;
+<a href="https://twitter.com/priestjim">@priestjim</a></p>
+
+<p>Founders of BugSense:</p>
+
+<ul>
+<li>Jon Vlachogiannis
+<a href="https://Linkedin.com/in/johnvlachoyiannis">Linkedin.com/in/johnvlachoyiannis</a>
+&mdash;
+<a href="https://twitter.com/jonromero">@jonromero</a></li>
+<li>Panos Papadopoulos
+<a href="https://Linkedin.com/in/panayiotis">Linkedin.com/in/panayiotis</a>
+&mdash;
+<a href="https://twitter.com/panosjee">@panosjee</a></li>
+</ul>
+
+
+<p>BugSense is now Splunk Mobile Intelligence (MINT)<br/>
+<a href="http://Splunk.com/mint">Splunk.com/mint</a>
+&mdash;
+<a href="http://docs.splunk.com/Documentation/Mint">docs.splunk.com/Documentation/Mint</a></p>
+
+</body>
+</html>
